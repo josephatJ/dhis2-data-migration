@@ -21,6 +21,7 @@ async def main():
     password = configs.get('PASSWORD')
     url = configs.get('URL')
     dhis2PersonData = DHIS2PersonData(username,password,url)
-    dhis2PersonData.get_client_details()
+    client_data = await dhis2PersonData.get_client_details()
+    print(client_data)
 
 asyncio.run(main())
