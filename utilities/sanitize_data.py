@@ -261,3 +261,157 @@ def get_dx_uid(elem_name, aggregate_data_elements):
 def remove_error_issues(errorDetails):
     print("errorDetails", errorDetails)
     return []
+
+def formulate_current_dpt_configs(department, selected_cadres, metadata):
+    group = ""
+    if "group" in department:
+        group = department['group']
+    department_config = {
+            "id": department['code'],
+            "name": department['name'],
+            "group": group,
+            "cadres": formulate_cadres_object(selected_cadres, metadata, department)
+        }
+    return department_config
+
+def get_hrh_dataelement(cadre, dataelements,department):
+    hrh_elem = ""
+    for dataelement in dataelements:
+        if dataelement['name'] == department['name'] + cadre['name'] + ".":
+            hrh_elem =  dataelement['id']
+    return hrh_elem
+
+def get_need_indicator(cadre, indicators,department):
+    need_elem = ""
+    for indicator in indicators:
+        if (department['code'] + "_" + cadre['code']) in indicator['name']:
+            need_elem =  indicator['id']
+    return need_elem
+
+def formulate_cadres_object(cadres, metadata, department):
+    cadre_items = []
+    for cadre in cadres:
+        hrh_elem_id = get_hrh_dataelement(cadre, metadata['dataElements'], department)
+        need_ind_id = get_need_indicator(cadre, metadata['indicators'], department)
+        cadre_item = {
+                "id": cadre['code'],
+                "name": cadre['name'],
+                "type": "",
+                "dataSource": [
+                    {
+                        "id": '',
+                        "label": 'Organization unit',
+                        "sortOrder": 0,
+                        "calculated": False,
+                    },
+                    {
+                        "id": hrh_elem_id,
+                        "type": 'indicators',
+                        "isHRH": True,
+                        "label": 'Existing Staff',
+                        "sortOrder": 1,
+                        "calculated": True,
+                    },
+                    {
+                        "id": need_ind_id,
+                        "type": 'indicators',
+                        "label": 'Calculated staff requirement',
+                        "sortOrder": 2,
+                        "calculated": True,
+                    },
+                    {
+                        "id": '',
+                        "type": 'indicators',
+                        "label": "WISN Ratio " + cadre['code'],
+                        "sortOrder": 3,
+                        "calculated": False,
+                    },
+                ]
+            }
+        cadre_items.append(cadre_item)
+    return cadre_items
+
+
+def is_department_already_on_datastore(departments, current_department):
+    exist = False
+    for dpt in departments:
+        if 'id' in dpt:
+            if dpt['id'] == current_department['code']:
+                exist = True
+    print("########################################################################")
+    print("########################################################################")
+    print(exist)
+    print("########################################################################")
+    print("########################################################################")
+    return exist
+
+def remove_duplicate_cadres(cadres):
+    check = {}
+    check['testing'] = 'testing'
+    new_cadres = []
+    for cadre in cadres:
+        cadre_id = cadre['id']
+        if cadre_id not in check:
+            check[cadre['id']] = cadre['id']
+            new_cadres.append(cadre)
+    return new_cadres
+
+def merge_departments(all_dpts, new_dpt):
+    new_all_dpts = []
+    for dpt in all_dpts:
+        if 'id' in dpt:
+            if dpt['id'] == new_dpt['id']:
+                new_all_dpts.append(new_dpt)
+            else:
+                new_all_dpts.append(dpt)
+        else:
+            new_all_dpts.append(dpt)
+    return new_all_dpts
+
+
+def clean_metadata_from_errors(response, metadata):
+    elems_to_omit = {}
+    inds_to_omit = {}
+    elems_has_error = False
+    inds_has_error = False
+    for typeReport in response['typeReports']:
+        if typeReport['klass'] == "org.hisp.dhis.dataelement.DataElement":
+            if 'objectReports' in typeReport:
+                for obj_report in typeReport['objectReports']:
+                    elems_has_error = True
+                    for error_report in obj_report['errorReports']:
+                        elem_id = error_report['message'].split("[")[1].split("]")[0]
+                        elems_to_omit[elem_id] = elem_id
+        if typeReport['klass'] == "org.hisp.dhis.indicator.Indicator":
+            if 'objectReports' in typeReport:
+                for obj_report in typeReport['objectReports']:
+                    inds_has_error = True
+                    for error_report in obj_report['errorReports']:
+                        ind_id = error_report['message'].split("[")[1].split("]")[0]
+                        inds_to_omit[ind_id] = error_report['errorProperties'][3]
+    
+    new_dataelements = []
+    new_indicators = []
+    if elems_has_error == True:
+        for elem in metadata['dataElements']:
+            if elem['id'] not in elems_to_omit:
+                new_dataelements.append(elem)
+            else:
+                new_elem = elem
+                # TODO: Remember to update indicator expression accordingly
+                new_elem['id'] = elems_to_omit[elem['id']]
+                new_dataelements.append(new_elem)
+    
+    if inds_has_error == True:
+        for ind in metadata['indicators']:
+            if ind['id'] not in inds_to_omit:
+                new_indicators.append(ind)
+            else:
+                new_ind = ind
+                new_ind['id'] = inds_to_omit[elem['id']]
+                new_indicators.append(new_ind)
+    
+    return {
+        "dataElements": new_dataelements,
+        "indicators": new_indicators
+    }
