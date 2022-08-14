@@ -1,4 +1,5 @@
 
+from datetime import datetime
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -27,13 +28,17 @@ class DHIS2Data:
     path += 'mergeMode=MERGE&flushMode=AUTO&skipSharing=false&skipValidation=false&inclusionStrategy=NON_NULL&format=json'
     response = requests.post(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
     if response.status_code == 200:
+      print("$$$$$$$$$$$$$$$$$@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      print("$$$$$$$$$$$$$$$$$@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      print("$$$$$$$$$$$$$$$$$@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      print("$$$$$$$$$$$$$$$$$@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
       return json.loads(response.content.decode('utf-8'))
     else:
       return json.loads(response.content.decode('utf-8'))
 
   #  WISN DATASET
   async def get_wisn_dataset(self):
-    path = 'dataSets/ggoiwX3RSRr.json?fields=*,!href'
+    path = 'dataSets/ggoiwX3RSRr.json?fields=*,dataSetElements[id,dataElement[id],dataSet[id]],!href'
     response = requests.get(self.url + '/api/' + path, auth=(self.username,self.password), verify=False)
     if response.status_code == 200:
       return json.loads(response.content.decode('utf-8'))
@@ -41,8 +46,8 @@ class DHIS2Data:
       return json.loads(response.content.decode('utf-8'))
     
   async def update_wisn_dataset(self):
-    path = 'dataSets/ggoiwX3RSRr.json?fields=*,!href'
-    response = requests.put(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
+    path = 'metadata.json?importMode=COMMIT&dryRun=false&identifier=UID&importStrategy=CREATE_AND_UPDATE&mergeMode=MERGE'
+    response = requests.post(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
     if response.status_code == 200:
       return json.loads(response.content.decode('utf-8'))
     else:
@@ -52,7 +57,7 @@ class DHIS2Data:
 
   #  HRH DATASET
   async def get_hrh_dataset(self):
-    path = 'dataSets/MjO0xdyZSnO.json?fields=*,!href'
+    path = 'dataSets/MjO0xdyZSnO.json?fields=*,dataSetElements[dataElement[id],dataSet[id]],!href'
     response = requests.get(self.url + '/api/' + path, auth=(self.username,self.password), verify=False)
     if response.status_code == 200:
       return json.loads(response.content.decode('utf-8'))
@@ -60,8 +65,8 @@ class DHIS2Data:
       return json.loads(response.content.decode('utf-8'))
     
   async def update_hrh_dataset(self):
-    path = 'dataSets/MjO0xdyZSnO.json?fields=*,!href'
-    response = requests.put(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
+    path = 'metadata'
+    response = requests.post(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
     if response.status_code == 200:
       return json.loads(response.content.decode('utf-8'))
     else:
@@ -79,7 +84,10 @@ class DHIS2Data:
       return json.loads(response.content.decode('utf-8'))
   
   async def update_hrh_datalement_group(self):
-    path = 'dataSets/gIMeIniXGeP.json'
+    # print("@#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    # print(json.dumps(self.data))
+    # print("@#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    path = 'dataElementGroups/gIMeIniXGeP.json'
     response = requests.put(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
     if response.status_code == 200:
       return json.loads(response.content.decode('utf-8'))
@@ -109,7 +117,7 @@ class DHIS2Data:
 
   # WISN Pages datastore
   async def get_wisn_data_store_page(self):
-    path = 'sqlViews/NLYAMgnmTuI/data.json?paging=false&filter=namespacekey:ilike:wisnreport&filter=namespace:eq:wisn-poa-pages'
+    path = 'sqlViews/NLYAMgnmTuI/data.json?paging=false&filter=namespacekey:ilike:wisnreport&filter=namespace:eq:wisn-poa-pages&cacheNone=' + str(datetime.now().timestamp())
     response = requests.get(self.url + '/api/' + path, auth=(self.username,self.password), verify=False)
     if response.status_code == 200:
       return json.loads(response.content.decode('utf-8'))
@@ -126,6 +134,62 @@ class DHIS2Data:
 
   # End WISN pages datastore
 
+  # Departments
+  async def get_departments_from_datastore(self):
+    path = 'sqlViews/NLYAMgnmTuI/data.json?paging=false&filter=namespace:eq:departments&cacheNone=' + str(datetime.now().timestamp())
+    response = requests.get(self.url + '/api/' + path, auth=(self.username,self.password), verify=False)
+    if response.status_code == 200:
+      return json.loads(response.content.decode('utf-8'))['listGrid']['rows']
+    else:
+      return json.loads(response.content.decode('utf-8'))
+
+  async def update_department(self):
+    path = 'dataStore/departments/' + self.data['id'] + '.json'
+    response = requests.put(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
+    if response.status_code == 200:
+      return json.loads(response.content.decode('utf-8'))
+    else:
+      return json.loads(response.content.decode('utf-8'))
+  
+  async def create_department(self):
+    print(self.data['id'])
+    path = 'dataStore/departments/' + self.data['id'] + '.json'
+    response = requests.post(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
+    if response.status_code == 200:
+      return json.loads(response.content.decode('utf-8'))
+    else:
+      return json.loads(response.content.decode('utf-8'))
+
+  # End of departments
+
+  # Cadres
+
+  async def get_cadres_from_datastore(self):
+    path = 'sqlViews/NLYAMgnmTuI/data.json?paging=false&filter=namespace:eq:cadres'
+    response = requests.get(self.url + '/api/' + path, auth=(self.username,self.password), verify=False)
+    if response.status_code == 200:
+      return json.loads(response.content.decode('utf-8'))['listGrid']['rows']
+    else:
+      return json.loads(response.content.decode('utf-8'))
+
+  async def create_cadre(self):
+    path = 'dataStore/cadres/' + self.data['id'] + '.json'
+    response = requests.post(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
+    if response.status_code == 200:
+      return json.loads(response.content.decode('utf-8'))
+    else:
+      return json.loads(response.content.decode('utf-8'))
+  
+  async def create_cadre_presets(self):
+    path = 'dataStore/cadres-presets/' + self.data['id'] + '.json'
+    response = requests.post(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
+    if response.status_code == 200:
+      return json.loads(response.content.decode('utf-8'))
+    else:
+      return json.loads(response.content.decode('utf-8'))
+
+  # End of cadres
+
   async def get_system_ids(self):
     response = requests.get(self.url + '/api/system/id.json?limit=10', auth=(self.username,self.password), verify=False)
     if response.status_code == 200:
@@ -139,5 +203,3 @@ class DHIS2Data:
       return json.loads(response.content.decode('utf-8'))
     else:
       return None
-
-  

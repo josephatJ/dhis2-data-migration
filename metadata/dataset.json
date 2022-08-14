@@ -1,0 +1,469 @@
+{
+  "lastUpdated": "2022-08-14T11:40:18.850",
+  "id": "ggoiwX3RSRr",
+  "created": "2018-06-24T02:49:48.697",
+  "name": "WISN HMIS & Preset Values form",
+  "shortName": "WISN HMIS & Preset Values form",
+  "validCompleteOnly": false,
+  "publicAccess": "rwr-----",
+  "skipOffline": false,
+  "compulsoryFieldsCompleteOnly": false,
+  "formType": "SECTION",
+  "displayFormName": "WISN HMIS & Preset Values form",
+  "version": 242,
+  "timelyDays": 150,
+  "favorite": false,
+  "dimensionItemType": "REPORTING_RATE",
+  "dataElementDecoration": false,
+  "displayName": "WISN HMIS & Preset Values form",
+  "notifyCompletingUser": false,
+  "noValueRequiresComment": false,
+  "displayShortName": "WISN HMIS & Preset Values form",
+  "externalAccess": false,
+  "fieldCombinationRequired": false,
+  "renderHorizontally": false,
+  "renderAsTabs": false,
+  "dimensionItem": "ggoiwX3RSRr",
+  "mobile": false,
+  "openPeriodsAfterCoEndDate": 0,
+  "periodType": "Yearly",
+  "openFuturePeriods": 2,
+  "expiryDays": 10000,
+  "categoryCombo": { "id": "bjDvmb4bfuf" },
+  "lastUpdatedBy": { "id": "WzfazLFwGhY" },
+  "access": {
+    "read": true,
+    "update": true,
+    "externalize": true,
+    "delete": true,
+    "write": true,
+    "manage": true,
+    "data": { "read": true, "write": true }
+  },
+  "user": { "id": "WzfazLFwGhY" },
+  "dataSetElements": [
+    {
+      "dataElement": { "id": "TtgHKFeqKLl" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "vdNtZSypsnj" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "htBfphKtobz" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "53ceuW8HHf2" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "W9UDvPl5HlD" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "9dJgkkk3b1N" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "XcAdYuBsqKp" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "cu5QIDbzb9A" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "MMGzhAoZjrA" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "G8pznh2NwoW" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "gtGfOCKsts2" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "bOhvfBlwxqw" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "BnjAlGRSYik" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "uzrpmtFLjxT" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "qfwzjltNfHW" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "gqOrFrChq0r" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "rbZbeni8jpq" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "DmbJt1GujbI" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "DOA0TsplOcJ" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "soslszHwxqt" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "BUC295d8oDq" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "lfDoIfrmYAu" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "Z3GyEWpJEKA" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "TWAwQsdEga3" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "nkuKUfLxZxC" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "zl4LOkq0eke" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "mjVturKRrxt" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "lJjQfupjq6a" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "n9lmb9rzYhK" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "4kHPhGacwuN" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "cueuRPnzg99" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "Uponyu1uHjs" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "pluWeMUeXza" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "iy3nrcoAu59" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "U1GgH1fxmnz" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "CeyDbLKbqYf" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "VfSr5IBrigI" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "4XlisgVJGIA" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    },
+    {
+      "dataElement": { "id": "WSw7bPvS61h" },
+      "dataSet": { "id": "ggoiwX3RSRr" }
+    }
+  ],
+  "translations": [],
+  "dataInputPeriods": [],
+  "interpretations": [],
+  "userGroupAccesses": [
+    {
+      "access": "rwrw----",
+      "userGroupUid": "eElk7jd8LQe",
+      "displayName": "Preset Values Admin",
+      "id": "eElk7jd8LQe"
+    }
+  ],
+  "attributeValues": [],
+  "indicators": [
+    { "id": "wisnnew0208" },
+    { "id": "wisnpoa0254" },
+    { "id": "wisnpoa0375" },
+    { "id": "wisnpoa0245" },
+    { "id": "wisnpoa0311" },
+    { "id": "wisnpoa0280" },
+    { "id": "wisnpoa0316" },
+    { "id": "wisnpoa0272" },
+    { "id": "wisnpoa0413" },
+    { "id": "wisnpoa0409" },
+    { "id": "wisnnew0222" },
+    { "id": "wisnpoa0306" },
+    { "id": "wisnpoa0231" },
+    { "id": "wisnpoa0313" },
+    { "id": "wisnpoa0403" },
+    { "id": "wisnpoa0251" },
+    { "id": "AQ1UbIbKUBH" },
+    { "id": "wisnpoa0416" },
+    { "id": "wisnpoa0364" },
+    { "id": "wisnpoa0418" },
+    { "id": "wisnpoa0261" },
+    { "id": "wisnpoa0385" },
+    { "id": "LLoCsKDBGdB" },
+    { "id": "wisnpoa0246" },
+    { "id": "RACTqelooF6" },
+    { "id": "wisnpoa0389" },
+    { "id": "wisnnew0202" },
+    { "id": "wisnpoa0284" },
+    { "id": "wisnpoa0360" },
+    { "id": "wisnpoa0420" },
+    { "id": "wisnpoa0392" },
+    { "id": "wisnpoa0384" },
+    { "id": "wisnpoa0266" },
+    { "id": "wisnpoa0329" },
+    { "id": "wisnpoa0397" },
+    { "id": "wisnpoa0275" },
+    { "id": "wisnpoa0408" },
+    { "id": "wisnpoa0208" },
+    { "id": "wisnpoa0322" },
+    { "id": "wisnpoa0347" },
+    { "id": "wisnpoa0370" },
+    { "id": "wisnpoa0291" },
+    { "id": "wisnpoa0396" },
+    { "id": "wisnpoa0237" },
+    { "id": "wisnpoa0269" },
+    { "id": "wisnpoa0255" },
+    { "id": "P3cdxwbPqVm" },
+    { "id": "wisnpoa0204" },
+    { "id": "wisnpoa0279" },
+    { "id": "wisnpoa0367" },
+    { "id": "wisnpoa0307" },
+    { "id": "wisnpoa0314" },
+    { "id": "wisnpoa0340" },
+    { "id": "wisnpoa0415" },
+    { "id": "JOBETWseKX1" },
+    { "id": "wisnpoa0404" },
+    { "id": "wisnpoa0232" },
+    { "id": "wisnpoa0267" },
+    { "id": "wisnpoa0220" },
+    { "id": "wisnpoa0300" },
+    { "id": "wisnpoa0304" },
+    { "id": "JEmN6hEfcss" },
+    { "id": "wisnpoa0281" },
+    { "id": "wisnpoa0362" },
+    { "id": "wisnpoa0405" },
+    { "id": "Wisnnew0214" },
+    { "id": "lR8hlOVbzKv" },
+    { "id": "wisnpoa0365" },
+    { "id": "wisnpoa0326" },
+    { "id": "wisnpoa0333" },
+    { "id": "wisnpoa0229" },
+    { "id": "wisnpoa0342" },
+    { "id": "wisnpoa0391" },
+    { "id": "wisnpoa0319" },
+    { "id": "wisnpoa0210" },
+    { "id": "wisnpoa0331" },
+    { "id": "wisnpoa0390" },
+    { "id": "wisnpoa0282" },
+    { "id": "wisnpoa0248" },
+    { "id": "wisnpoa0278" },
+    { "id": "wisnpoa0330" },
+    { "id": "wisnpoa0227" },
+    { "id": "wisnpoa0287" },
+    { "id": "RACTqelooF7" },
+    { "id": "wisnpoa0323" },
+    { "id": "wisnpoa0308" },
+    { "id": "wisnpoa0414" },
+    { "id": "wisnpoa0381" },
+    { "id": "wisnpoa0256" },
+    { "id": "wisnpoa0292" },
+    { "id": "wisnpoa0305" },
+    { "id": "wisnpoa0400" },
+    { "id": "wisnpoa0216" },
+    { "id": "wisnpoa0366" },
+    { "id": "wisnpoa0271" },
+    { "id": "wisnpoa0203" },
+    { "id": "wisnpoa0378" },
+    { "id": "wisnpoa0263" },
+    { "id": "wisnpoa0241" },
+    { "id": "wisnpoa0336" },
+    { "id": "wisnpoa0289" },
+    { "id": "J8iZ1lZRg7H" },
+    { "id": "wisnpoa0327" },
+    { "id": "wisnpoa0406" },
+    { "id": "wisnpoa0247" },
+    { "id": "wisnpoa0398" },
+    { "id": "wisnpoa0310" },
+    { "id": "s9jQbaUUenM" },
+    { "id": "wisnpoa0209" },
+    { "id": "wisnpoa0380" },
+    { "id": "wisnpoa0328" },
+    { "id": "wisnpoa0235" },
+    { "id": "wisnpoa0372" },
+    { "id": "Sgz0Ov4XDgW" },
+    { "id": "wisnpoa0207" },
+    { "id": "wisnpoa0202" },
+    { "id": "wisnpoa0357" },
+    { "id": "YqwLpxFfrAi" },
+    { "id": "wisnpoa0253" },
+    { "id": "gOgguxvGGU8" },
+    { "id": "wisnpoa0297" },
+    { "id": "wisnpoa0212" },
+    { "id": "wisnpoa0264" },
+    { "id": "wisnpoa0373" },
+    { "id": "wisnpoa0346" },
+    { "id": "wisnpoa0214" },
+    { "id": "wisnpoa0395" },
+    { "id": "wisnpoa0298" },
+    { "id": "MspJGo0YlxM" },
+    { "id": "wisnpoa0223" },
+    { "id": "gxCmdO83jn5" },
+    { "id": "wisnpoa0221" },
+    { "id": "eGujuoA8I69" },
+    { "id": "wisnpoa0393" },
+    { "id": "wisnpoa0361" },
+    { "id": "wisnpoa0233" },
+    { "id": "YJGXtFnMJlz" },
+    { "id": "wisnpoa0296" },
+    { "id": "wisnpoa0239" },
+    { "id": "wisnpoa0200" },
+    { "id": "wisnpoa0285" },
+    { "id": "wisnpoa0410" },
+    { "id": "wisnpoa0228" },
+    { "id": "wisnpoa0206" },
+    { "id": "wisnpoa0388" },
+    { "id": "wisnpoa0283" },
+    { "id": "wisnpoa0273" },
+    { "id": "wisnpoa0339" },
+    { "id": "wisnpoa0224" },
+    { "id": "wisnpoa0293" },
+    { "id": "wisnpoa0417" },
+    { "id": "wisnpoa0250" },
+    { "id": "wisnpoa0295" },
+    { "id": "wisnpoa0394" },
+    { "id": "wisnpoa0399" },
+    { "id": "wisnpoa0332" },
+    { "id": "wisnpoa0377" },
+    { "id": "wisnpoa0226" },
+    { "id": "wisnpoa0369" },
+    { "id": "wisnpoa0374" },
+    { "id": "wisnpoa0259" },
+    { "id": "wisnpoa0274" },
+    { "id": "wisnpoa0350" },
+    { "id": "wisnpoa0217" },
+    { "id": "wisnpoa0407" },
+    { "id": "wisnpoa0301" },
+    { "id": "wisnpoa0309" },
+    { "id": "wisnpoa0354" },
+    { "id": "wisnpoa0402" },
+    { "id": "wisnpoa0211" },
+    { "id": "wisnpoa0234" },
+    { "id": "wisnpoa0218" },
+    { "id": "wisnpoa0337" },
+    { "id": "wisnpoa0225" },
+    { "id": "wisnpoa0244" },
+    { "id": "wisnpoa0376" },
+    { "id": "wisnpoa0240" },
+    { "id": "wisnpoa0252" },
+    { "id": "csWIbXnJl3H" },
+    { "id": "wisnpoa0260" },
+    { "id": "wisnpoa0338" },
+    { "id": "wisnpoa0368" },
+    { "id": "wisnpoa0201" },
+    { "id": "wisnpoa0238" },
+    { "id": "wisnpoa0343" },
+    { "id": "wisnpoa0242" },
+    { "id": "J8iZ1lZRg7X" },
+    { "id": "wisnpoa0341" },
+    { "id": "wisnpoa0353" },
+    { "id": "wisnpoa0363" },
+    { "id": "wisnpoa0358" },
+    { "id": "wisnpoa0348" },
+    { "id": "wisnpoa0324" },
+    { "id": "wisnpoa0222" },
+    { "id": "wisnpoa0351" },
+    { "id": "BBaeL8SCrBV" },
+    { "id": "wisnpoa0359" },
+    { "id": "wisnpoa0371" },
+    { "id": "wisnpoa0386" },
+    { "id": "wisnpoa0257" },
+    { "id": "wisnpoa0379" },
+    { "id": "wisnpoa0318" },
+    { "id": "wisnpoa0382" },
+    { "id": "wisnpoa0236" },
+    { "id": "wisnpoa0349" },
+    { "id": "wisnnew0232" },
+    { "id": "wisnpoa0302" },
+    { "id": "wisnpoa0219" },
+    { "id": "wisnpoa0299" },
+    { "id": "wisnpoa0411" },
+    { "id": "wisnpoa0270" },
+    { "id": "wisnpoa0315" },
+    { "id": "wisnpoa0334" },
+    { "id": "wisnpoa0215" },
+    { "id": "wisnpoa0383" },
+    { "id": "wisnpoa0262" },
+    { "id": "wisnpoa0325" },
+    { "id": "wisnpoa0320" },
+    { "id": "wisnpoa0412" },
+    { "id": "UWsdbu20j5W" },
+    { "id": "wisnpoa0352" },
+    { "id": "wisnpoa0419" },
+    { "id": "wisnpoa0335" },
+    { "id": "wisnpoa0345" },
+    { "id": "wisnpoa0265" },
+    { "id": "wisnpoa0294" },
+    { "id": "wisnpoa0321" },
+    { "id": "wisnpoa0344" },
+    { "id": "wisnpoa0243" },
+    { "id": "wisnpoa0312" },
+    { "id": "wisnpoa0355" },
+    { "id": "wisnpoa0317" },
+    { "id": "wisnpoa0290" },
+    { "id": "wisnpoa0303" },
+    { "id": "wisnpoa0401" },
+    { "id": "wisnpoa0205" },
+    { "id": "wisnpoa0356" },
+    { "id": "wisnpoa0213" },
+    { "id": "wisnpoa0230" },
+    { "id": "wisnpoa0387" },
+    { "id": "i6RKsJlfEwF" }
+  ],
+  "sections": [
+    { "id": "smRCk3IUugB" },
+    { "id": "Ju6twYnOnMu" },
+    { "id": "BPkNHQwGnah" },
+    { "id": "QfYJvfHHhn1" },
+    { "id": "cnQ27f8UkMs" }
+  ],
+  "userAccesses": [],
+  "legendSets": [],
+  "favorites": [],
+  "compulsoryDataElementOperands": [],
+  "organisationUnits": []
+}

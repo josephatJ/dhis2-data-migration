@@ -1,13 +1,17 @@
 
 # Josephat Mwakyusa, August 10, 2022
+from datetime import datetime
 import json
+import os
+
+from utilities.generate_ids import get_random_string
 
 async def formulate_data_elements_from_department(department, ids, idsawt,idsspt,timeids, presetids, hrhids, suppyids, indids):
     data_elements = []
     count = 0
     for cadre in department['cadres']:
         hmis_data_element = {}
-        hmis_data_element['id'] = ids[count]
+        hmis_data_element['id'] = get_random_string(11)
         hmis_data_element['name'] = 'HMIS_# of ' + department['name'] + "_" + cadre['code']
         hmis_data_element['displayShortName'] = ('HMIS_# of ' + department['name'] + "_" + cadre['code'])[0:50]
         hmis_data_element['shortName'] = ('HMIS_# of ' + department['name'] + "_" + cadre['code'])[0:50]
@@ -27,8 +31,7 @@ async def formulate_data_elements_from_department(department, ids, idsawt,idsspt
         ts_elems = generate_time_standard_DE([hmis_data_element], cadre, department, timeids)
         preset_elems = generate_preset_DE([hmis_data_element], cadre, department, presetids)
         hrh_elems = generate_HRHDE(cadre,department, hrhids)
-        supply_elems =  generate_supply_constraints_DE(cadre,department,suppyids[count])
-        ind_id = indids[count]
+        supply_elems =  generate_supply_constraints_DE(cadre,department,"")
         count = count + 1
         data_elements = [*data_elements,  *awt_elems]
         data_elements = [*data_elements,  *spt_activities_elems]
@@ -37,7 +40,7 @@ async def formulate_data_elements_from_department(department, ids, idsawt,idsspt
         data_elements = [*data_elements,  *hrh_elems]
         data_elements = [*data_elements,  *supply_elems]
 
-        indicators = get_staff_requirement_indicator(hmis_data_element,data_elements, cadre, department, ind_id)
+        indicators = get_staff_requirement_indicator(hmis_data_element,data_elements, cadre, department, "")
         count = count + 1
     
     # print(json.dumps(data_elements))
@@ -57,7 +60,7 @@ def generate_AWTDE(cadre, department, ids):
     awt_elems = []
     for actitivities_type in actitivities_types:
         elem = {}
-        elem['id'] = ids[count]
+        elem['id'] = get_random_string(11)
         elem['name'] = department['code'] + "_" + cadre['code'] + actitivities_type
         elem['displayName'] = department['code'] + "_" + cadre['code'] + actitivities_type
         elem['displayFormName'] = department['code'] + "_" + cadre['code'] + actitivities_type
@@ -81,7 +84,7 @@ def generate_support_activities_DE(cadre, department, ids):
     elems = []
     for activity_type in actitivites_types:
         elem = {}
-        elem['id'] = ids[count]
+        elem['id'] = get_random_string(11)
         elem['name'] = activity_type + department['code'] + cadre['code']
         elem['displayName'] = activity_type + department['code'] + cadre['code']
         elem['displayFormName'] = activity_type + department['code'] + cadre['code']
@@ -103,12 +106,12 @@ def generate_time_standard_DE(hmis_elems,cadre,department,ids):
     count = 0
     for hmis_elem in hmis_elems:
         elem = {}
-        elem['id'] = ids[count]
+        elem['id'] = get_random_string(11)
         elem['name'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_"+ department['code']
         elem['displayName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_" + department['code']
         elem['displayFormName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_" + department['code']
         elem['displayShortName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code']
-        elem['shortName'] = ((hmis_elem['shortName'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code'])[3])[0:50]
+        elem['shortName'] = ((hmis_elem['shortName'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code'])[3:100])[0:50]
         elem['dataSetElements'] = []
         elem['valueType'] = 'NUMBER'
         elem['aggregationType'] = 'SUM'
@@ -125,12 +128,12 @@ def generate_preset_DE(hmis_elems,cadre,department,ids):
     count = 0
     for hmis_elem in hmis_elems:
         elem = {}
-        elem['id'] = ids[count]
+        elem['id'] = get_random_string(11)
         elem['name'] = hmis_elem['name'].replace('HMIS_# of ', '%') + '_' + cadre['name'] + "_" + department['code']
         elem['displayName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_" + department['code']
         elem['displayFormName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_" + department['code']
-        elem['displayShortName'] = ((hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_"+ department['code'])[4])[0:50]
-        elem['shortName'] = (('%' +hmis_elem['shortName'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code'])[4])[0:50]
+        elem['displayShortName'] ='%' + ((hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_"+ department['code'])[4:100])[0:49]
+        elem['shortName'] = '%' +(('%' +hmis_elem['shortName'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code'])[4:100])[0:50]
         elem['dataSetElements'] = []
         elem['valueType'] = 'NUMBER'
         elem['aggregationType'] = 'SUM'
@@ -148,7 +151,7 @@ def generate_HRHDE(cadre,department,ids):
     extensions = [{ "extension": ".", "valueType": 'NUMBER' },{ "extension": ' staff needed', "valueType": 'NUMBER' }]
     for extension in extensions:
         elem = {}
-        elem['id'] = ids[count]
+        elem['id'] = get_random_string(11)
         elem['name'] = department['name'] + cadre['name'] + extension['extension']
         elem['displayName'] = department['name'] + cadre['name'] + extension['extension']
         elem['displayFormName'] = department['name'] + cadre['name'] + extension['extension']
@@ -175,7 +178,7 @@ def generate_HRHDE(cadre,department,ids):
 def generate_supply_constraints_DE(cadre,department,id_ref):
     elems = []
     elem = {
-            "id": id_ref,
+            "id": get_random_string(11),
             "name": 'Supply Constraint ' + cadre['name'],
             "displayName": 'Supply Constraint ' + cadre['name'],
             "formName": cadre['name'],
@@ -228,16 +231,16 @@ def get_staff_requirement_indicator(hmis_elem, data_elements_by_cadre, cadre, de
     casDxId = get_dx_uid(casDxname, aggregate_data_elements)
     cis_dx_name = "Outreach_" + department['code'] + cadre['code']
     cisDxId = get_dx_uid(cis_dx_name, aggregate_data_elements)
-    wisnNeedNumerator = "((" + staffReq + ")*#{" + casDxId + "})+#{" + cisDxId + "}"
+    numerator = "((" + staffReq + ")*#{" + casDxId + "})+#{" + cisDxId + "}"
 
     inds = [
         {
-            "id": ind_id,
+            "id": get_random_string(11),
             "name": 'Staff Requirement ' + department['code'] + "_" + cadre['code'],
             "shortName": ('Staff Requirement ' + department['code'] + "_" + cadre['code'])[0:50],
             "denominatorDescription": 'Denominator is 1',
             "numeratorDescription": 'Staff Requirement ' + department['code'] + "_" + cadre['code'],
-            "numerator": wisnNeedNumerator,
+            "numerator": numerator,
             "denominator": '1',
             "annualized": False,
             "decimals": 2,
@@ -293,10 +296,17 @@ def formulate_cadres_object(cadres, metadata, department):
     for cadre in cadres:
         hrh_elem_id = get_hrh_dataelement(cadre, metadata['dataElements'], department)
         need_ind_id = get_need_indicator(cadre, metadata['indicators'], department)
+        cadre_type =''
+        cadre_group = ''
+        if 'type' in cadre:
+            cadre_type = cadre['type']
+        if 'group' in cadre:
+            cadre_type = cadre['group']
         cadre_item = {
                 "id": cadre['code'],
                 "name": cadre['name'],
-                "type": "",
+                "type": cadre_type,
+                "group": cadre_group,
                 "dataSource": [
                     {
                         "id": '',
@@ -381,7 +391,7 @@ def clean_metadata_from_errors(response, metadata):
                     elems_has_error = True
                     for error_report in obj_report['errorReports']:
                         elem_id = error_report['message'].split("[")[1].split("]")[0]
-                        elems_to_omit[elem_id] = elem_id
+                        elems_to_omit[elem_id] = error_report['errorProperties'][3]
         if typeReport['klass'] == "org.hisp.dhis.indicator.Indicator":
             if 'objectReports' in typeReport:
                 for obj_report in typeReport['objectReports']:
@@ -389,7 +399,9 @@ def clean_metadata_from_errors(response, metadata):
                     for error_report in obj_report['errorReports']:
                         ind_id = error_report['message'].split("[")[1].split("]")[0]
                         inds_to_omit[ind_id] = error_report['errorProperties'][3]
-    
+    path =  os.getcwd() + "/metadata/exists.json"
+    with open(path, "w") as jsonfile:
+        jsonfile.write(json.dumps(elems_to_omit))
     new_dataelements = []
     new_indicators = []
     if elems_has_error == True:
@@ -400,6 +412,12 @@ def clean_metadata_from_errors(response, metadata):
                 new_elem = elem
                 # TODO: Remember to update indicator expression accordingly
                 new_elem['id'] = elems_to_omit[elem['id']]
+                indicators_updated = []
+                for indicator in metadata['indicators']:
+                    new_ind = indicator
+                    new_ind['numerator'] = indicator['numerator'].replace(elem['id'],new_elem['id'] )
+                    indicators_updated.append(new_ind)
+                metadata['indicators'] = indicators_updated
                 new_dataelements.append(new_elem)
     
     if inds_has_error == True:
@@ -415,3 +433,180 @@ def clean_metadata_from_errors(response, metadata):
         "dataElements": new_dataelements,
         "indicators": new_indicators
     }
+
+
+def formulate_datastore_payload(stored_dpts_rows):
+    data = {}
+    for row in stored_dpts_rows:
+        value = json.loads(row[2]['value'])
+        if 'name' in value and 'softDeleted' not in value:
+            data[value['name']] = value
+    return data
+
+def format_cadre_for_datastore(data_row):
+    current_date = datetime.now().timestamp()
+    cadre = {
+        "cadreBasicInfo": {
+                "id": get_random_string(11),
+                "name": data_row[2],
+                "code": data_row[3],
+                "group": data_row[4],
+                "type": data_row[5],
+                "created": current_date,
+                "lastUpdated": current_date,
+                "createdBy": "lkpMY7Ys94v"
+            },
+        "monthlySalary":  data_row[6]
+    }
+    return cadre
+
+def format_cadre_presets(cadre_details):
+    cadre_preset = {
+                    "id": cadre_details['cadreBasicInfo']['id']+"_2022",
+                    "data": {
+                        "costAndSupply": {
+                        "monthlySalary": cadre_details['monthlySalary'],
+                        "supply": "0",
+                        "porlagSupply": ""
+                        },
+                        "wisnParameters": {
+                        "dispensary": {
+                            "mainActivity": {
+                            "opd": { "opd_min_client": "", "opd_allocation": "" },
+                            "ipd": { "ipd_min_client": "", "ipd_allocation": "" },
+                            "labour-and-delivery": { "ld_min_client": "", "ld_allocation": "" },
+                            "c_section": {
+                                "c_section_min_client": "",
+                                "c_section_allocation": ""
+                            },
+                            "anc": { "anc_min_client": "", "anc_allocation": "" },
+                            "postnatal": {
+                                "postnatal_min_client": "",
+                                "postnatal_allocation": ""
+                            },
+                            "child-health": {
+                                "child_health_min_client": "",
+                                "child_health_allocation": ""
+                            },
+                            "nacp": { "nacp_min_client": "", "nacp_allocation": "" }
+                            },
+                            "supportActivity": {
+                            "administration_hours_per_week": "",
+                            "outreach_hours_per_week": ""
+                            },
+                            "workingTime": {
+                            "working_days": "",
+                            "working_hours": "",
+                            "annual_leave": "",
+                            "public_holidays": "",
+                            "sick_leave": "",
+                            "special_no_notice_leave": "",
+                            "training_days": ""
+                            }
+                        },
+                        "health-center": {
+                            "mainActivity": {
+                            "opd": { "opd_min_client": "", "opd_allocation": "" },
+                            "ipd": { "ipd_min_client": "", "ipd_allocation": "" },
+                            "labour-and-delivery": { "ld_min_client": "", "ld_allocation": "" },
+                            "c_section": {
+                                "c_section_min_client": "",
+                                "c_section_allocation": ""
+                            },
+                            "anc": { "anc_min_client": "", "anc_allocation": "" },
+                            "postnatal": {
+                                "postnatal_min_client": "",
+                                "postnatal_allocation": ""
+                            },
+                            "child-health": {
+                                "child_health_min_client": "",
+                                "child_health_allocation": ""
+                            },
+                            "nacp": { "nacp_min_client": "", "nacp_allocation": "" }
+                            },
+                            "supportActivity": {
+                            "administration_hours_per_week": "",
+                            "outreach_hours_per_week": ""
+                            },
+                            "workingTime": {
+                            "working_days": "",
+                            "working_hours": "",
+                            "annual_leave": "",
+                            "public_holidays": "",
+                            "sick_leave": "",
+                            "special_no_notice_leave": "",
+                            "training_days": ""
+                            }
+                        },
+                        "health-center-bemonc": {
+                            "mainActivity": {
+                            "opd": { "opd_min_client": "", "opd_allocation": "" },
+                            "ipd": { "ipd_min_client": "", "ipd_allocation": "" },
+                            "labour-and-delivery": { "ld_min_client": "", "ld_allocation": "" },
+                            "c_section": {
+                                "c_section_min_client": "",
+                                "c_section_allocation": ""
+                            },
+                            "anc": { "anc_min_client": "", "anc_allocation": "" },
+                            "postnatal": {
+                                "postnatal_min_client": "",
+                                "postnatal_allocation": ""
+                            },
+                            "child-health": {
+                                "child_health_min_client": "",
+                                "child_health_allocation": ""
+                            },
+                            "nacp": { "nacp_min_client": "", "nacp_allocation": "" }
+                            },
+                            "supportActivity": {
+                            "administration_hours_per_week": "",
+                            "outreach_hours_per_week": ""
+                            },
+                            "workingTime": {
+                            "working_days": "",
+                            "working_hours": "",
+                            "annual_leave": "",
+                            "public_holidays": "",
+                            "sick_leave": "",
+                            "special_no_notice_leave": "",
+                            "training_days": ""
+                            }
+                        },
+                        "hospital": {
+                            "mainActivity": {
+                            "opd": { "opd_min_client": "", "opd_allocation": "" },
+                            "ipd": { "ipd_min_client": "", "ipd_allocation": "" },
+                            "labour-and-delivery": { "ld_min_client": "", "ld_allocation": "" },
+                            "c_section": {
+                                "c_section_min_client": "",
+                                "c_section_allocation": ""
+                            },
+                            "anc": { "anc_min_client": "", "anc_allocation": "" },
+                            "postnatal": {
+                                "postnatal_min_client": "",
+                                "postnatal_allocation": ""
+                            },
+                            "child-health": {
+                                "child_health_min_client": "",
+                                "child_health_allocation": ""
+                            },
+                            "nacp": { "nacp_min_client": "", "nacp_allocation": "" }
+                            },
+                            "supportActivity": {
+                            "administration_hours_per_week": "",
+                            "outreach_hours_per_week": ""
+                            },
+                            "workingTime": {
+                            "working_days": "",
+                            "working_hours": "",
+                            "annual_leave": "",
+                            "public_holidays": "",
+                            "sick_leave": "",
+                            "special_no_notice_leave": "",
+                            "training_days": ""
+                            }
+                        }
+                        }
+                    }
+                }
+    return cadre_preset
