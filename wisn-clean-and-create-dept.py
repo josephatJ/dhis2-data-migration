@@ -117,40 +117,148 @@ async def main():
 
     # Update & Create cadres accordinly
     all_cadres_from_excel = []
-    keyed_existing_cadres = {}
-    for dpt_data_row in dpt_data:
-        cadre_details = format_cadre_for_datastore(dpt_data_row)
-        all_cadres_from_excel.append(cadre_details)
+    # keyed_existing_cadres = {}
+    # for dpt_data_row in dpt_data:
+    #     cadre_details = format_cadre_for_datastore(dpt_data_row)
+    #     all_cadres_from_excel.append(cadre_details)
     
-    # Get stored cadres
+    # # Get stored cadres
 
-    stored_cadres_payload = await dhis2Data.get_cadres_from_datastore()
-    if stored_cadres_payload is not None:
-        keyed_existing_cadres = formulate_datastore_payload(stored_cadres_payload)
-        path =  os.getcwd() + "/metadata/metadata.json"
-        with open(path, "w") as jsonfile:
-            jsonfile.write(json.dumps(keyed_existing_cadres))
+    # stored_cadres_payload = await dhis2Data.get_cadres_from_datastore()
+    # if stored_cadres_payload is not None:
+    #     keyed_existing_cadres = formulate_datastore_payload(stored_cadres_payload)
+    #     path =  os.getcwd() + "/metadata/metadata.json"
+    #     with open(path, "w") as jsonfile:
+    #         jsonfile.write(json.dumps(keyed_existing_cadres))
         
-        for cadre_metadata in all_cadres_from_excel:
-            if cadre_metadata['cadreBasicInfo']['name'] not in keyed_existing_cadres:
-                print("CADRE `" + cadre_metadata['cadreBasicInfo']['name'] + "` DOES NOT EXIST")
-                # print(json.dumps(cadre_metadata['cadreBasicInfo']))
+    #     for cadre_metadata in all_cadres_from_excel:
+    #         if cadre_metadata['cadreBasicInfo']['name'] not in keyed_existing_cadres:
+    #             print("CADRE `" + cadre_metadata['cadreBasicInfo']['name'] + "` DOES NOT EXIST")
+    #             # print(json.dumps(cadre_metadata['cadreBasicInfo']))
 
-                dhis2Data = DHIS2Data(username,password,url,cadre_metadata['cadreBasicInfo'] )
-                cadre_create_response = await dhis2Data.create_cadre()
-                print("cadre_create_response", cadre_create_response)
+    #             dhis2Data = DHIS2Data(username,password,url,cadre_metadata['cadreBasicInfo'] )
+    #             cadre_create_response = await dhis2Data.create_cadre()
+    #             keyed_existing_cadres[cadre_metadata['cadreBasicInfo']['name']] = cadre_metadata['cadreBasicInfo']
+    #             print("cadre_create_response", cadre_create_response)
 
-                # Create cadre presets
-                cadre_presets = format_cadre_presets(cadre_metadata)
-                dhis2Data = DHIS2Data(username,password,url,cadre_presets)
-                cadre_presets_create_response = await dhis2Data.create_cadre_presets()
-                print("cadre_presets_create_response", cadre_presets_create_response)
-            else:
-                print("CADRE `" + cadre_metadata['cadreBasicInfo']['name'] + "-" + cadre_metadata['cadreBasicInfo']['id'] + "` EXISTS, DO NOTHING")
-                # print(json.dumps(keyed_existing_cadres[cadre_metadata['cadreBasicInfo']['name']]))
+    #             # Create cadre presets
+    #             # cadre_presets = format_cadre_presets(cadre_metadata)
+    #             # dhis2Data = DHIS2Data(username,password,url,cadre_presets)
+    #             # cadre_presets_create_response = await dhis2Data.create_cadre_presets()
+    #             # print("cadre_presets_create_response", cadre_presets_create_response)
+    #         else:
+    #             print("***CADRE `" + cadre_metadata['cadreBasicInfo']['name'] + "-" + cadre_metadata['cadreBasicInfo']['id'] + "` EXISTS, DO NOTHING")
+    #             # Update update_cadre
+    #             cadre_info = keyed_existing_cadres[cadre_metadata['cadreBasicInfo']['name']]
+    #             cadre_info['type'] = cadre_metadata['cadreBasicInfo']['type']
+    #             print("cadre_info", json.dumps(cadre_info))
+    #             dhis2Data = DHIS2Data(username,password,url,cadre_info)
+    #             cadre_update_response = await dhis2Data.update_cadre()
+    #             # print(json.dumps(keyed_existing_cadres[cadre_metadata['cadreBasicInfo']['name']]))
 
 
 
+    # Get data elements
+    dhis2Data = DHIS2Data(username,password,url, {})
+    available_elems = await dhis2Data.get_all_dataelements()
+    elems_to_upate = []
+    for available_elem in available_elems:
+        if 'staff' not in available_elem['name'] or '.' not in available_elem['name']:
+            print(available_elem['name'])
+            elems_to_upate.append({
+                "dataElement": {
+                    "id": available_elem['id']
+                },
+                "dataSet": {
+                    "id": "ggoiwX3RSRr"
+                }
+            })
+    
+    dataset_details = await dhis2Data.get_wisn_dataset()
+    if dataset_details is not None:
+        dataset_payload = dataset_details
+        merged_elems = [*dataset_payload['dataSetElements'], *elems_to_upate]
+        dataset_elements = []
+        cleaned = []
+        check = {}
+        for merged_elem in merged_elems:
+            if merged_elem['dataElement']['id'] not in check:
+                cleaned.append(merged_elem)
+                check[merged_elem['dataElement']['id']] = merged_elem['dataElement']['id']
+
+        dataset_payload['dataSetElements'] = cleaned
+        path =  os.getcwd() + "/metadata/dataset.json"
+        with open(path, "w") as jsonfile:
+            jsonfile.write(json.dumps({"dataSets": [dataset_payload]}))
+        dhis2Data = DHIS2Data(username,password,url, {"dataSets": [dataset_payload]})
+        update_response = await dhis2Data.update_wisn_dataset()
+
+        print("update_response_WISN", update_response)
+
+
+    # Existing staffs
+    # dhis2Data = DHIS2Data(username,password,url, {})
+    # available_elems = await dhis2Data.get_all_dataelements()
+    # elems_to_upate = []
+    # for available_elem in available_elems:
+    #     if '.' in available_elem['name']:
+    #         elems_to_upate.append({
+    #             "dataElement": {
+    #                 "id": available_elem['id']
+    #             },
+    #             "dataSet": {
+    #                 "id": "MjO0xdyZSnO"
+    #             }
+    #         })
+    
+    # dataset_details = await dhis2Data.get_hrh_dataset()
+    # if dataset_details is not None:
+    #     dataset_payload = dataset_details
+    #     merged_elems = [*dataset_payload['dataSetElements'], *elems_to_upate]
+    #     dataset_elements = []
+    #     cleaned = []
+    #     check = {}
+    #     for merged_elem in merged_elems:
+    #         if merged_elem['dataElement']['id'] not in check:
+    #             cleaned.append(merged_elem)
+    #             check[merged_elem['dataElement']['id']] = merged_elem['dataElement']['id']
+
+    #     dataset_payload['dataSetElements'] = cleaned
+    #     dhis2Data = DHIS2Data(username,password,url, {"dataSets": [dataset_payload]})
+    #     update_response = await dhis2Data.update_wisn_dataset()
+    #     print(update_response)
+
+
+    # dhis2Data = DHIS2Data(username,password,url, {})
+    # available_elems = await dhis2Data.get_all_dataelements()
+    # elems_to_upate = []
+    # for available_elem in available_elems:
+    #     if '.' in available_elem['name']:
+    #         elems_to_upate.append({
+    #             "dataElement": {
+    #                 "id": available_elem['id']
+    #             },
+    #             "dataSet": {
+    #                 "id": "MjO0xdyZSnO"
+    #             }
+    #         })
+    
+    dataset_details = await dhis2Data.get_hrh_dataelement_group()
+    if dataset_details is not None:
+        dataset_payload = dataset_details
+        merged_elems = [*dataset_payload['dataSetElements'], *elems_to_upate]
+        dataset_elements = []
+        cleaned = []
+        check = {}
+        for merged_elem in merged_elems:
+            if merged_elem['dataElement']['id'] not in check:
+                cleaned.append(merged_elem)
+                check[merged_elem['dataElement']['id']] = merged_elem['dataElement']['id']
+
+        dataset_payload['dataSetElements'] = cleaned
+        dhis2Data = DHIS2Data(username,password,url, {"dataSets": [dataset_payload]})
+        update_response = await dhis2Data.update_wisn_dataset()
+        print(update_response)
 
 
     stored_departments = await dhis2Data.get_departments_from_datastore()
@@ -251,7 +359,14 @@ async def main():
                                     }
                             }
                             dataset_elements.append(dataset_element)
-                    dataset_payload['dataSetElements'] = dataset_elements
+                    merged_elems = [*dataset_payload['dataSetElements'], *dataset_elements]
+                    check = {}
+                    uniq_elems = []
+                    for merged_elem in merged_elems:
+                        if merged_elem['dataElement']['id'] not in check:
+                            uniq_elems.append(merged_elem)
+                            check[merged_elem['dataElement']['id']] = merged_elem['dataElement']['id']
+                    dataset_payload['dataSetElements'] = uniq_elems
                     path =  os.getcwd() + "/metadata/dataset.json"
                     with open(path, "w") as jsonfile:
                         jsonfile.write(json.dumps(dataset_details))
@@ -278,7 +393,14 @@ async def main():
                                     }
                             }
                             dataset_elements.append(dataset_element)
-                    dataset_payload['dataSetElements'] = dataset_elements
+                    merged_elems = [*dataset_payload['dataSetElements'], *dataset_elements]
+                    check = {}
+                    uniq_elems = []
+                    for merged_elem in merged_elems:
+                        if merged_elem['dataElement']['id'] not in check:
+                            uniq_elems.append(merged_elem)
+                            check[merged_elem['dataElement']['id']] = merged_elem['dataElement']['id']
+                    dataset_payload['dataSetElements'] = uniq_elems
                     dhis2Data = DHIS2Data(username,password,url,  {"dataSets": [dataset_payload]})
                     update_response = await dhis2Data.update_hrh_dataset()
 
@@ -289,12 +411,22 @@ async def main():
                 # 2. Update
                 group_details = await dhis2Data.get_hrh_dataelement_group()
                 if group_details is not None:
-                    payload = {
-                        "dataElements": group_details['dataElements']
-                    }
+                    payload = group_details
+                    elems = []
                     for data_element in metadata['dataElements']:
                         if "." in data_element['name']:
-                            payload['dataElements'].append({"id": data_element['id']})
+                            elems.append({"id": data_element['id']})
+                    
+                    check = {}
+                    uniq_elems = []
+                    for data_element in elems:
+                        if data_element['id'] not in check:
+                            uniq_elems.append(data_element)
+                            check[data_element['id']] = data_element
+                    payload['dataElements'] = uniq_elems
+                    path =  os.getcwd() + "/metadata/element_group.json"
+                    with open(path, "w") as jsonfile:
+                        jsonfile.write(json.dumps(payload))
                     dhis2Data = DHIS2Data(username,password,url, payload)
                     update_response = await dhis2Data.update_hrh_datalement_group()
 
@@ -305,12 +437,18 @@ async def main():
                 # 2. Update
                 group_details = await dhis2Data.get_hmis_dataelement_group()
                 if group_details is not None:
-                    payload = {
-                        "dataElements": group_details['dataElements']
-                    }
+                    payload = group_details
+                    elems = []
                     for data_element in metadata['dataElements']:
                         if "HMIS_#" in data_element['name']:
-                            payload['dataElements'].append({"id": data_element['id']})
+                            elems.append({"id": data_element['id']})
+                    check = {}
+                    uniq_elems = []
+                    for data_element in elems:
+                        if data_element['id'] not in check:
+                            uniq_elems.append(data_element)
+                            check[data_element['id']] = data_element
+                    payload['dataElements']=  uniq_elems
                     dhis2Data = DHIS2Data(username,password,url, payload)
                     update_response = await dhis2Data.update_hmis_datalement_group()
 

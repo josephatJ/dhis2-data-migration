@@ -110,7 +110,7 @@ def generate_time_standard_DE(hmis_elems,cadre,department,ids):
         elem['name'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_"+ department['code']
         elem['displayName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_" + department['code']
         elem['displayFormName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_" + department['code']
-        elem['displayShortName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code']
+        elem['displayShortName'] = (hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code'][3:100])[0:50]
         elem['shortName'] = ((hmis_elem['shortName'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code'])[3:100])[0:50]
         elem['dataSetElements'] = []
         elem['valueType'] = 'NUMBER'
@@ -133,7 +133,7 @@ def generate_preset_DE(hmis_elems,cadre,department,ids):
         elem['displayName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_" + department['code']
         elem['displayFormName'] = hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['name'] + "_" + department['code']
         elem['displayShortName'] ='%' + ((hmis_elem['name'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_"+ department['code'])[4:100])[0:49]
-        elem['shortName'] = '%' +(('%' +hmis_elem['shortName'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code'])[4:100])[0:50]
+        elem['shortName'] = '%' +(('%' +hmis_elem['shortName'].replace('HMIS_# of ', '') + '_' + cadre['code'] + "_" + department['code'])[4:100])[0:49]
         elem['dataSetElements'] = []
         elem['valueType'] = 'NUMBER'
         elem['aggregationType'] = 'SUM'

@@ -1,0 +1,37 @@
+{
+  "lastUpdated": "2022-08-16T06:27:47.663",
+  "id": "gIMeIniXGeP",
+  "created": "2021-03-11T18:41:12.033",
+  "name": "Existing Staff",
+  "aggregationType": "LAST",
+  "displayName": "Existing Staff",
+  "publicAccess": "rw------",
+  "externalAccess": false,
+  "dimensionItem": "gIMeIniXGeP",
+  "displayFormName": "Existing Staff",
+  "favorite": false,
+  "dimensionItemType": "DATA_ELEMENT_GROUP",
+  "access": {
+    "read": true,
+    "update": true,
+    "externalize": true,
+    "delete": true,
+    "write": true,
+    "manage": true
+  },
+  "lastUpdatedBy": { "id": "lkpMY7Ys94v" },
+  "user": { "id": "nMWJDXz0CTv" },
+  "favorites": [],
+  "translations": [],
+  "dataElements": [
+    { "id": "pnuibjFe0iB" },
+    { "id": "ZV1udU9zFb0" },
+    { "id": "Uolw24jwpXU" },
+    { "id": "mQVkkyolbTs" }
+  ],
+  "userGroupAccesses": [],
+  "attributeValues": [],
+  "groupSets": [],
+  "userAccesses": [],
+  "legendSets": []
+}

@@ -180,6 +180,15 @@ class DHIS2Data:
     else:
       return json.loads(response.content.decode('utf-8'))
   
+  async def update_cadre(self):
+    path = 'dataStore/cadres/' + self.data['id'] + '.json'
+    response = requests.put(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
+    if response.status_code == 200:
+      return json.loads(response.content.decode('utf-8'))
+    else:
+      return json.loads(response.content.decode('utf-8'))
+  
+  
   async def create_cadre_presets(self):
     path = 'dataStore/cadres-presets/' + self.data['id'] + '.json'
     response = requests.post(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
@@ -203,3 +212,18 @@ class DHIS2Data:
       return json.loads(response.content.decode('utf-8'))
     else:
       return None
+
+  async def get_all_dataelements(self):
+    response = requests.get(self.url + '/api/dataElements.json?fields=id,name,code&paging=false', auth=(self.username,self.password), verify=False)
+    if response.status_code == 200:
+      return json.loads(response.content.decode('utf-8'))['dataElements']
+    else:
+      return None
+  
+  async def assign_dataelements_to_dataset_and_preset(self):
+    path = 'metadata.json?importMode=COMMIT&dryRun=false&identifier=UID&importStrategy=CREATE_AND_UPDATE&mergeMode=MERGE'
+    response = requests.post(self.url + '/api/' + path, auth = HTTPBasicAuth(self.username,self.password), headers=headers, data=json.dumps(self.data))
+    if response.status_code == 200:
+      return json.loads(response.content.decode('utf-8'))
+    else:
+      return json.loads(response.content.decode('utf-8'))
